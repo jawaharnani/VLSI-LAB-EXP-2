@@ -4,7 +4,7 @@ AIM:
  To simulate and synthesis ENCODER, DECODER, MULTIPLEXER, DEMULTIPLEXER, MAGNITUDE COMPARATOR using Xilinx ISE.
 
 APPARATUS REQUIRED:
-Xilinx 14.7
+vivado
 Spartan6 FPGA
 
 **LOGIC DIAGRAM**
@@ -49,12 +49,103 @@ STEP:10 Double click on the Implement Design and double click on the Generate Pr
 STEP:11  On the board, by giving required input, the LEDs starts to glow light, indicating the output.
 
 VERILOG CODE
+# Encoder
+# Program
+```
+module encoder(d,a,b,c);
+input [7:0]d;
+output a,b,c;
+or(a,d[4],d[5],d[6],d[7]);
+or(b,d[2],d[3],d[6],d[7]);
+or(c,d[1],d[3],d[5],d[7]);
+endmodule
 
-   <<< TYPE YOUR VERILOG CODE >>>
+```
+# Decoder
+# Program
+```
+module decoder_8(a,b,c,y);
+input a,b,c; 
+output[7:0]y; 
+and gl(y[0],(~a),(~b),(~c)); 
+and g2(y[1],(~a),(~b),(c)); 
+and g3(y[2],(~a),(b),(~c));
+and g4(y[3],(~a),(b),(c));
+and g5(y[4],(a),(~b),(~c));
+and g6(y[5],(a), (~b), (c));
+and g7(y[6], (a), (b), (~c)); 
+and g8(y[7], (a), (b), (c));
+endmodule
+```
+# Multiplxer
+# Program
+```
+module mux(a,b,c,d,s0,s1,y);
+input a,b,c,d,s0,s1;
+output y;
+assign y=s1 ?(s0?d:c):(s0?b:a);
+endmodule
+```
+# Demultipler
+# Program 
+```
+module demux(in,s0,s1,s2,d0,d1,d2,d3,d4,d5,d6,d7);
+input in,s0,s1,s2;
+output d0,d1,d2,d3,d4,d5,d6,d7;
+assign d0=(in & ~s2 & ~s1 &~s0),
+d1=(in & ~s2 & ~s1 &s0),
+d2=(in & ~s2 & s1 &~s0),
+d3=(in & ~s2 & s1 &s0),
+d4=(in & s2 & ~s1 &~s0),
+d5=(in & s2 & ~s1 &s0),
+d6=(in & s2 & s1 &~s0),
+d7=(in & s2 & s1 &s0);
+endmodule
+```
+# Magnitudecomparator
+# Program
+```
+module magcomp(a,b,l,g,e);
+input [3:0]a,b;
+output reg l,g,e;
+always @(*)
+begin
+if(a>b)
+begin
+     l=1'b0;
+     g=1'b1;
+     e=1'b0;
+end
+else if(a<b)
+begin
+     l=1'b1;
+     g=1'b0;
+     e=1'b0;
+end
+else
+begin
+     l=1'b0;
+     g=1'b0;
+     e=1'b1;
+end
+end
+endmodule
+```
 
-OUTPUT WAVEFORM
- <<< PASTE YOUR OUTPUT WAVEFORM >>>
+# Output
 
-RESULT
+![Encoder](https://github.com/navaneethans/VLSI-LAB-EXP-2/assets/164842709/d1806c1b-6b7d-4bc9-84bf-b4d23ca6851b)
+
+![Decoder](https://github.com/navaneethans/VLSI-LAB-EXP-2/assets/164842709/cd0dcf8f-f6d6-4684-87e5-5c0e70efafe6)
+
+![Multiplxer](https://github.com/navaneethans/VLSI-LAB-EXP-2/assets/164842709/b85e52f6-7128-45e6-bbea-44b3c2e0bbe1)
+
+![Demultipler](https://github.com/navaneethans/VLSI-LAB-EXP-2/assets/164842709/3debc234-d984-4156-8f40-7e3db8211dd8)
+
+![Magnitudecomparator](https://github.com/navaneethans/VLSI-LAB-EXP-2/assets/164842709/92264095-9da3-4112-9127-d1befad73159)
+
+
+# RESULT
+Hence ENCODER, DECODER, MULTIPLEXER, DEMULTIPLEXER, MAGNITUDE COMPARATOR is stimulated and synthesised using Vivado 2023.2.
 
 
